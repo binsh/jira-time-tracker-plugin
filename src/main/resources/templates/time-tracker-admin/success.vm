@@ -1,0 +1,53 @@
+$webResourceManager.requireResourcesForContext("com.kolhozcustoms.timeTracker:timeTrackerAdmin-resources")
+<html>
+<head>
+  <title>$i18n.getText("time-tracker-admin.form1.title")</title>
+  <meta name="decorator" content="atl.admin"/>
+</head>
+<body>
+<h1>$i18n.getText("time-tracker-admin.form1.title")</h1>
+<form method="POST" class="aui" action="TTSettingsAction!save.jspa">
+    <fieldset class="group">
+        <legend><span>$i18n.getText("time-tracker-admin.form1.radion-title-TZ")</span></legend>
+        <div class="radio">
+            <input class="radio" type="radio" name="tz_radio" id="radioButton1" value="0" #if( $tz_radio == "0" ) checked="checked" #end>
+            <label for="radioButton1">$i18n.getText("time-tracker-admin.form1.radion1-caption-TZ")</label> 
+        </div>
+        <div class="radio">
+            <input class="radio" type="radio" name="tz_radio" id="radioButton2" value="1" #if( $tz_radio == "1" ) checked="checked" #end>
+            <label for="radioButton2">$i18n.getText("time-tracker-admin.form1.radion2-caption-TZ") ($defaultTimeZone)</label>
+        </div>
+        <div class="radio">
+            <input class="radio" type="radio" name="tz_radio" id="radioButton3" value="2" #if( $tz_radio == "2" ) checked="checked" #end>
+            <label for="radioButton3">$i18n.getText("time-tracker-admin.form1.radion3-caption-TZ") ($userTimeZone)</label>
+        </div>
+        <div class="radio">
+            <input class="radio" type="radio" name="tz_radio" id="radioButton4" value="3" #if( $tz_radio == "3" ) checked="checked" #end>
+            <label for="radioButton4">$i18n.getText("time-tracker-admin.form1.radion4-caption-TZ")</label>
+            <div><input class="text medium-field" type="number" min="-12" max="12" size="2" id="time_offset" name="time_offset" value="$!{time_offset}">
+            <div class="description">$i18n.getText("time-tracker-admin.form1.radion4-description")</div>
+        </div>
+    </fieldset>
+    <!--
+    <div class="field-group">
+        <label for="comment-email">$i18n.getText("time-tracker-admin.form1.email")
+            <span class="aui-icon icon-required">(required)</span></label>
+        <input class="text medium-field" type="text"
+               id="comment-email" name="comment_email" placeholder="you@example.com" value="$!{comment_email}">
+        <div class="description">Your primary email address.</div>
+    </div>
+    <div class="field-group">
+        <label for="comment-input">$i18n.getText("time-tracker-admin.form1.comment")</label>
+        <textarea class="textarea" name="comment_input"
+                  id="comment-input" placeholder="Your comment here...">$!{comment_input}</textarea>
+    </div>
+    -->
+    <div class="buttons-container">
+        <div class="buttons">
+            <input class="button submit" type="submit" value="Save" id="comment-save-button">
+            <a class="cancel" href="#">Cancel</a>
+        </div>
+    </div>
+</form>
+</body>
+</html>

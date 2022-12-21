@@ -1,0 +1,311 @@
+$webResourceManager.requireResourcesForContext("com.kolhozcustoms.timeTracker:timeTracker-resources")
+<html>
+<head>
+    <title>$i18n.getText("time-tracker-report.timetracker.title")</title>
+    <meta name="decorator" content="atl.general"/>
+</head>
+    <body>
+        <script type="text/javascript" >
+        var project_checked = [
+                            #foreach($item in $projectCheckedList)
+                                "project_$item.get(0)",
+                            #end
+        ];
+        </script>
+        <main id="main" class="navigator-body" role="main">
+            <div class="contained-content" style="margin:16px;">
+                <div class="issue-search-header">
+                    <header class="saved-search-selector">
+<!--
+                        <div class="saved-search-operations operations">
+                            <a href="" id="jira-share-trigger" class="aui-button aui-button-subtle issuenav-share no-icon" tabindex="0"><span class="aui-icon aui-icon-small aui-iconfont-share">Поделиться этим поиском по электронной почте с другими пользователями </span><span class="aui-button-label">Поделиться</span></a>
+                            
+                            <button class="aui-button aui-button-subtle header-views header-operations jira-aui-dropdown2-trigger"><span class="aui-icon aui-icon-small aui-iconfont-export"></span><span class="aui-button-label">Экспорт</span></button>
+                            <button class="aui-button aui-button-subtle header-tools header-operations jira-aui-dropdown2-trigger"><span class="aui-icon aui-icon-small aui-iconfont-configure"></span><span class="aui-button-label">Настройки</span></button>
+
+                            <section role="dialog" id="csv-export-dialog" class="aui-layer aui-dialog2 aui-dialog2-medium" hidden>
+                                    <header class="aui-dialog2-header">
+                                        <h2 id="csv-export-dialog-header-all" class="aui-dialog2-header-main">Экспорт - CSV (все поля)</h2>
+                                        <h2 id="csv-export-dialog-header-current" class="aui-dialog2-header-main">Экспорт - CSV (текущие поля)</h2>
+                                    </header>
+                                    <div class="aui-dialog2-content">
+                                        <form class="aui">
+                                            <div class="field-group">
+                                                <label for="csv-delimiter">Выберите разделитель</label>
+                                                <aui-select id="csv-delimiter" name="delimiter">
+                                                    <aui-option value="," selected="selected">Запятая (,)</aui-option>
+                                                    <aui-option value=";">Точка с запятой (;)</aui-option>
+                                                    <aui-option value="|">Вертикальная черта (|)</aui-option>
+                                                    <aui-option value="^">Знак вставки (^)</aui-option>
+                                                </aui-select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <footer class="aui-dialog2-footer">
+                                        <div class="aui-dialog2-footer-actions">
+                                            <button id="csv-export-dialog-export-button" class="aui-button aui-button-primary">Экспорт</button>
+                                            <button id="csv-export-dialog-cancel-button" class="aui-button aui-button-link">Отменить</button>
+                                        </div>
+                                    </footer>
+                                </section>                           
+                            <div class="hidden operations-view-data">
+                                <fieldset class="hidden parameters">
+                                </fieldset>
+                            </div>
+                        </div>
+-->
+                        <span id="throbber-space" class="icon throbber"></span>
+                        <div id="search-header-view">
+                            <h1 class="search-title">$i18n.getText("time-tracker-report.timetracker.title")</h1>
+                        </div>
+                    </header>
+
+                    <form method="POST" id="filter-form" class="aui top-label aui-popup-content navigator-search query-component generic-styled" action="TimeTrackerReportAction.jspa" aria-controls="time-report-table">
+                        <div class="aui-group">
+                            <div class="aui-item search-wrap">
+                                <div class="search-container" data-mode="basic">
+                                    <div class="search-field-container">
+                                        <div class="search-criteria-container">
+                                            <div class="search-criteria">
+                                                <ul class="criteria-list">
+                                                    <li data-id="project" class original-title>
+                                                        <div data-id="project" id="project" class="criteria-selector aui-button aui-button-subtle aui-dropdown2-trigger" aria-controls="project-dropdown">
+                                                            <div class="criteria-wrap">
+                                                                <span class="fieldLabel">$i18n.getText("time-tracker-report.timetracker.form1.project")</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li data-id="username" class original-title>
+                                                        <div data-id="username" id="username" class="criteria-selector aui-button aui-button-subtle aui-dropdown2-trigger" aria-controls="username-dropdown">
+                                                            <div class="criteria-wrap">
+                                                                <span class="fieldLabel">$i18n.getText("time-tracker-report.timetracker.form1.username")</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li data-id="time" class original-title style="white-space: nowrap;">
+                                                        <!--<div data-id="time" class="criteria-selector aui-button aui-button-subtle jira-aui-dropdown2-trigger">
+                                                            <div class="criteria-wrap">
+                                                                <span class="fieldLabel">$i18n.getText("time-tracker-report.timetracker.form1.period"):</span>
+                                                                 Все
+                                                            </div>
+                                                        </div>-->
+                                                        <label for="start-date" style="margin-right:4px;">$i18n.getText("time-tracker-report.timetracker.form1.period"):</label>
+                                                        <input class="aui-date-picker text" type="date" id="start-date" name="start_date" placeholder="Дата начала" value="$!{start_date}" style="max-width: 108px;">
+                                                        <input class="aui-date-picker text" type="date" id="end-date" name="end_date" placeholder="Дата окончания" value="$!{end_date}" style="max-width: 108px;">
+                                                    </li>
+                                                    <li class original-title style="white-space: nowrap;">
+                                                        <label for="group_by" style="margin-right:4px; vertical-align:sub;">$i18n.getText("time-tracker-report.timetracker.form1.group-by"):</label>
+                                                        <select class="select" id="group_by" name="group_by" style="width:120px;">
+                                                            <option value="user">$i18n.getText("time-tracker-report.timetracker.form1.username")</option>
+                                                            <option value="project">$i18n.getText("time-tracker-report.timetracker.form1.project")</option>
+                                                        </select>
+                                                    </li>
+                                                    <li class original-title style="white-space: nowrap;">
+                                                        <label class="item-label checkbox" resolved="" style="margin-right:4px; vertical-align:sub;">
+                                                            <input type="checkbox" tabindex="-1" name="show_empty" value="true" checked="checked">
+                                                            <span class="aui-form-glyph"></span> $i18n.getText("time-tracker-report.timetracker.form1.show-empty")
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <input class="aui-button aui-button-primary search-button" type="submit" value="$i18n.getText("time-tracker-report.timetracker.form1.submit")" id="comment-save-button">
+                                                    </li>
+                                                    <li>
+                                                        <!--<a class="cancel" href="MyWebworkAction!clear.jspa">Cancel</a>-->
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <aui-dropdown-menu id="project-dropdown">
+                            <div class="form-body checkboxmultiselect-container">
+                                <div class="field-group aui-field-userlist">                                          
+                                    <div class="check-list-select" id="assignee-multi-select" data-query="">
+                                        <div class="check-list-field-container">
+                                            <input autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="true" placeholder="Поиск проектов" class="text" id="project-input" aria-controls="project-suggestions" aria-owns="project-suggestions">
+                                            <span class="icon-default aui-icon aui-icon-small noloading aui-iconfont-search"></span>
+                                        </div>
+                                        <div class="aui-list" id="" tabindex="-1" role="listbox" style="display: block;">
+                                            <div class="aui-list-scroll" tabindex="-1" role="presentation">
+                                                <ul id="project-suggestions" class="aui-list-section selected-group hidden" aria-label="">
+                                                </ul>
+                                                <!-- <a class="clear-all" href="#">$i18n.getText("time-tracker-report.timetracker.form1.clear-selection")</a> -->
+                                                <h5>Недавние проекты</h5>
+                                                <ul id="project-recent" class="aui-list-section selected-group" aria-label="">
+                                                </ul>
+                                                <h5>Все проекты</h5>
+                                                <ul id="project-all" class="aui-list-section" aria-label="">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aui-dropdown-menu>
+
+                        <aui-dropdown-menu id="username-dropdown">
+                                <div class="form-body checkboxmultiselect-container">
+                                    <div class="field-group aui-field-userlist">                                          
+                                        <div class="check-list-select" id="assignee-multi-select" data-query="">
+                                            <div class="check-list-field-container">
+                                                <input autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="true" placeholder="Поиск Пользоваталей/Групп..." class="text" id="assignee-input" aria-controls="assignee-suggestions" aria-owns="assignee-suggestions">
+                                                <span class="icon-default aui-icon aui-icon-small noloading aui-iconfont-search"></span>
+                                            </div>
+                                            <div class="aui-list" id="" tabindex="-1" role="listbox" style="display: block;">
+                                                <div class="aui-list-scroll" tabindex="-1" role="presentation">
+                                                <ul id="assignee-suggestions" class="aui-list-section selected-group hidden" aria-label="">
+                                                </ul>
+                                                <!--<a class="clear-all" href="#">$i18n.getText("time-tracker-report.timetracker.form1.clear-selection")</a>-->
+                                                <ul id="assignee-checked" class="aui-list-section selected-group" aria-label="">
+                                                    #foreach($item in $userList)
+                                                    <li class="check-list-item" role="option" id="user_$item.get(4)">
+                                                        <label class="item-label checkbox" resolved="">
+                                                            <input type="checkbox" tabindex="-1" name="executerusers" value="$item.get(0)" checked="checked">
+                                                            <span class="aui-form-glyph"></span>
+                                                            <img height="16" width="16" class="icon rounded" align="absmiddle" src="$item.get(1)">$item.get(2)  - $item.get(3) ($item.get(0))
+                                                        </label>
+                                                    </li>
+                                                    #end
+                                                </ul>
+                                                    <ul id="assignee-current" class="aui-list-section" aria-label="">
+                                                        <li class="check-list-item headerOption" role="option" id="user_$currentUser.get(0)">
+                                                            <label class="item-label checkbox" title="$i18n.getText("time-tracker-report.timetracker.form1.current-user")" data-descriptor-title="$i18n.getText("time-tracker-report.timetracker.form1.current-user")" resolved="">
+                                                                <input type="checkbox" tabindex="-1" name="executerusers" value="$currentUser.get(0)" $currentUser.get(4)>
+                                                                <span class="aui-form-glyph"></span>
+                                                                <img height="16" width="16" class="icon rounded" align="absmiddle" src="$currentUser.get(1)">$i18n.getText("time-tracker-report.timetracker.form1.current-user")
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </aui-dropdown-menu>
+                    </form>
+                </div>
+                <table class="aui" id="time-report-table" style="display:block; overflow-x: auto; white-space: nowrap; margin:16px 0 0 0">
+                    <thead id="tableHeader">
+                        <tr id="headerLevel1">
+                            <th id="executername" style="width:260px;" class="fixed-side">$i18n.getText("time-tracker-report.timetracker.table.name")</th>
+                            <th id="taskcount" style="width:40px;">$i18n.getText("time-tracker-report.timetracker.table.taskcount")</th>
+                            <th id="timespent">$i18n.getText("time-tracker-report.timetracker.table.timespent")</th>
+                            #foreach($month in $tableHeaderObject.getHeaderLevel1())
+                                <th class="month" colspan="$month.get(2)">$month.get(1)</th>
+                            #end
+                            <th class="data_column template"></th>
+                        </tr>
+                        <tr id="headerLevel2">
+                            <th id="project" class="fixed-side">$i18n.getText("time-tracker-report.timetracker.table.project")</th>
+                            <th id="spens" style="width:48px;">$i18n.getText("time-tracker-report.timetracker.table.spent")</th>
+                            <th id="timespent2">$i18n.getText("time-tracker-report.timetracker.table.total")</th>
+                            #foreach($day in $tableHeaderObject.getHeaderLevel2())
+                                <th class="day" style="width:16px;">$day.get(2)</th>
+                            #end
+                            <th class="data_column template" style="width:16px;"></th>
+                        </tr>
+                        <tr id="headerLevel3" style="display:none;">
+                            <th id="project" style="width:260px;">$i18n.getText("time-tracker-report.timetracker.table.project-issue")</th>
+                            <th id="taskcount" style="width:40px;">$i18n.getText("time-tracker-report.timetracker.table.taskcount")</th>
+                            <th id="totalSpent">$i18n.getText("time-tracker-report.timetracker.table.timespent")</th>
+                            <th class="data_column template"></th>
+                        </tr>                     
+                    </thead>
+                    <tbody class="tbody_level1 template">
+                        <tr>
+                            <td headers="executername" style="background-color: #EFE;" class="project-expander" aria-controls="">
+                                <img src="" alt="" role="presentation" class="icon aui-avatar-inner" />
+                            </td>
+                            <td headers="taskcount" style="background-color:#EFE;" class="taskcount"></td>
+                            <td headers="timespent" style="font-weight:bold; background-color:#EFE;" class="totalspent"></td>
+                            <td style="background-color:#EFE;" class="data_column template"></td>
+                        </tr>
+                    </tbody>
+                    <tbody id="" style="display:none;" class="tbody_level2 template">
+                        <tr class="tr_level2 template">
+                            <td headers="project" class="issue-expander" aria-controls="">
+                                <span class="aui-avatar" style="margin:0 8px 0 0;"> </span>
+                                <img src="" role="presentation" class="icon"/>
+                            </td>
+                            <td headers="taskcount" class="taskcount"></td>
+                            <td headers="timespent" class="totalspent" style="font-weight:medium;"></td>
+                            <td class="data_column template"></td>
+                        </tr>
+                            <tr class="tr_level3 template" style="display:none;" >
+                                <td headers="issue" class="issue" style="font-weight: normal;">
+                                    <span class="aui-avatar" style="margin:0 16px 0 0;"> </span>
+                                    <img src="" title="" class="icon issue-avatar">
+                                    <a class="issue-link" href="" target="_blanc"></a>
+                                </td>
+                                <td headers="taskcount" class="taskcount"></td>
+                                <td headers="timespent" class="totalspent"></td>
+                                <td class="data_column template"></td>
+                            </tr>
+                    </tbody>
+
+
+                    #foreach($user in $dataObjectList)
+                    <tbody class="tbody_level1">
+                        <tr>
+                            <td headers="executername" style="background-color: #EFE;" class="project-expander fixed-side" aria-controls="tr_$user.getUserKey()">
+                                <span class="aui-avatar aui-avatar-xsmall">
+                                    <span class="aui-avatar-inner">
+                                        <img src="$user.getAvatar()" alt="" role="presentation" class="icon_level1" />
+                                    </span>
+                                </span>
+                                $user.getUserName()
+                            </td>
+                            <td headers="taskcount" style="background-color:#EFE;">
+                                $user.getTaskCount()
+                            </td>
+                            <td headers="timespent" style="font-weight:bold; background-color:#EFE;">
+                                $user.getTotalSpent()
+                            </td>
+                            <!--foreach($spent in $user.getSpentList()) -->
+                            <td style="background-color:#EFE;" class="data_column template"> $spent </td>
+                            <!--end -->
+                        </tr>
+                    </tbody>
+                    <tbody id="tr_$user.getUserKey()" style="display:none;">
+                        #foreach($project in $user.getAllProjects())
+                        <tr>
+                            <td headers="project" class="issue-expander fixed-side" aria-controls="tr_$project.getProjectKey()">
+                                        <span class="aui-avatar" style="margin:0 8px 0 0;"> </span>
+                                        <img src="$project.getAvatar()" alt="" role="presentation" class="icon"/>
+                                        $project.getProjectName()
+                            </td>
+                            <td headers="taskcount"> $project.getTaskCount() </td>
+                            <td headers="timespent" style="font-weight:medium;">
+                                $project.getTotalSpent()
+                            </td>
+                            #foreach($projectspent in $project.getSpentList())
+                                <td>$projectspent</td>
+                            #end
+                        </tr>
+                            #foreach($issue in $project.getAllIssues())
+                            <tr class="inner_tr_$project.getProjectKey()" style="display:none;" >
+                                <td headers="issue" class="task" style="font-weight: normal;">
+                                    <span class="aui-avatar" style="margin:0 16px 0 0;"> </span>
+                                    <img src="/secure/viewavatar?size=xsmall&amp;avatarId=$issue.getAvatar()&amp;avatarType=issuetype" avatar-id="$issue.getAvatar()" title="$issue.getIssueType()" class="icon issue-avatar">
+                                    <a class="issue-link" data-issue-key="$issue.getIssueKey()" href="/browse/$issue.getIssueKey()" id="key-val" target="_blanc">$issue.getIssueName() ($issue.getIssueKey())</a>
+                                </td>
+                                <td headers="taskcount" class="task"> ($issue.getSpentCount())</td>
+                                <td headers="timespent" class="task">
+                                    $issue.getTotalSpent()
+                                </td>
+                                #foreach($issuespent in $issue.getSpentList())
+                                    <td class="task">$issuespent</td>
+                                #end
+                            </tr>
+                            #end
+                        #end
+                    </tbody>
+                    #end
+                </table>
+            </div>
+        </main>
+        $!{exception}
+    </body>
+</html>

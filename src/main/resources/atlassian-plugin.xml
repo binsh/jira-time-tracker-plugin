@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2"> 
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/pluginIcon.png</param>  
+    <param name="plugin-logo">images/pluginLogo.png</param> 
+  </plugin-info>  
+  <!-- i18n resource -->  
+  <resource type="i18n" name="i18n" location="timeTracker"/>  
+  <!-- web resources -->  
+  <web-resource key="timeTracker-resources" name="timeTracker Web Resources" i18n-name-key="time-tracker-resources.name"> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>  
+    <dependency>com.atlassian.auiplugin:aui-date-picker</dependency>  
+    <resource type="download" name="timeTracker.css" location="/css/timeTracker.css"/>  
+    <resource type="download" name="timeTracker.js" location="/js/timeTracker.js"> 
+      <param name="batch" value="false"/> 
+    </resource>  
+    <resource type="download" name="images/" location="/images"/>  
+    <context>timeTracker</context> 
+  </web-resource>  
+  <web-resource key="timeTrackerAdmin-resources" name="timeTrackerAdmin Web Resources" i18n-name-key="time-tracker-admin-resources.name"> 
+    <resource type="download" name="timeTrackerAdmin.js" location="/js/timeTrackerAdmin.js"> 
+      <param name="batch" value="false"/> 
+    </resource>  
+    <context>timeTrackerAdmin</context> 
+  </web-resource> 
+
+   <!-- Web Items -->
+  <web-section name="ttAdminSection" i18n-name-key="timetracker-admin-section.name" key="timetracker-admin-section" location="admin_plugins_menu" weight="1000"> 
+    <description key="timetracker-admin-section.description"/>  
+    <label key="timetracker-admin-section.label"/> 
+  </web-section>  
+  <web-item name="ttSettingsWebItem" i18n-name-key="tt-settings-item.name" key="tt-settings-item" section="admin_plugins_menu/timetracker-admin-section" weight="1000"> 
+    <description key="tt-settings-item.description"/>  
+    <label key="tt-settings-item.label"/>  
+    <link linkId="time-tracker-settings-link">/secure/TTSettingsAction.jspa</link> 
+  </web-item>  
+  <web-item name="Timetracker report button" i18n-name-key="time-tracker-item.name" key="time-tracker-item" section="system.top.navigation.bar" weight="1000"> 
+    <description key="time-tracker-item.description"/>  
+    <label key="time-tracker-item.label"/>  
+    <link linkId="time-tracker-report-link">/secure/TimeTrackerReportAction.jspa</link> 
+  </web-item>  
+
+<!-- Web Actions -->
+  <webwork1 key="time-tracker-admin" name="TimeTrackerAdmin" i18n-name-key="time-tracker-admin.name" roles-required="admin"> 
+    <description key="time-tracker-admin.description"/> 
+    <actions> 
+      <action name="com.kolhozcustoms.jira.plugin.timetracker.webwork.TTSettingsAction" alias="TTSettingsAction"> 
+        <view name="success">/templates/time-tracker-admin/success.vm</view>  
+        <view name="input">/templates/time-tracker-admin/input.vm</view>  
+        <view name="error">/templates/time-tracker-admin/error.vm</view> 
+      </action> 
+    </actions> 
+  </webwork1>  
+  <webwork1 key="time-tracker-report" name="TimeTrackerReport" i18n-name-key="time-tracker-report.name" roles-required="use"> 
+    <description key="time-tracker-report.description"/>  
+    <actions> 
+      <action name="com.kolhozcustoms.jira.plugin.timetracker.webwork.TimeTrackerReportAction" alias="TimeTrackerReportAction"> 
+        <view name="success">/templates/time-tracker-report/success.vm</view>  
+        <view name="input">/templates/time-tracker-report/input.vm</view>  
+        <view name="error">/templates/time-tracker-report/error.vm</view> 
+      </action> 
+    </actions> 
+  </webwork1>  
+
+  <!-- REST -->
+  <rest name="Time Tracker API" i18n-name-key="time-tracker-api.name" key="time-tracker-api" path="/timetracker" version="1.0"> 
+    <description key="time-tracker-api.description"/>
+  </rest>  
+</atlassian-plugin>
