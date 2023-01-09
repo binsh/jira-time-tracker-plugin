@@ -5,7 +5,7 @@
     <!--<groupId>com.atlassian.tutorial</groupId>-->
     <groupId>com.kolhozcustoms</groupId>
     <artifactId>timeTracker</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <organization>
         <name>Kolhoz Customs</name>
         <url>http://kolhozcustoms.ru/</url>

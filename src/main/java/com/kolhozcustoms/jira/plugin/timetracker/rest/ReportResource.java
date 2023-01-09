@@ -240,7 +240,7 @@ public class ReportResource {
                     }
                     UserDataObject userDataObject = dataObjectList.get(worklog.getAuthorKey());
                     userDataObject.addIssueToProject(project.getId(), project.getKey(), project.getName(), this.avatarService.getProjectAvatarAbsoluteURL(project, Avatar.Size.SMALL).toString(), issue.getId(), issue.getKey(), issue.getSummary(), issue.getIssueTypeId(), "Avatar relocate to front"); //String.valueOf(issueAvatarId)
-                    userDataObject.spentTime(TimeUtil.fromTimeStamp(check_start_date, "MM")+TimeUtil.fromTimeStamp(check_start_date, "dd"), worklog.getTimeSpent(), project.getId(), issue.getId());
+                    userDataObject.spentTime(TimeUtil.fromTimeStamp(check_start_date, "yyyy")+TimeUtil.fromTimeStamp(check_start_date, "MM")+TimeUtil.fromTimeStamp(check_start_date, "dd"), worklog.getTimeSpent(), project.getId(), issue.getId());
                 }
             }
         }

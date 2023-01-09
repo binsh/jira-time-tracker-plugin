@@ -282,7 +282,7 @@ public class TimeTrackerReportAction extends JiraWebActionSupport
                     if(!аpplicationUser.getKey().equals(worklog.getAuthorKey())) { continue; }
                     check_start_date = worklog.getStartDate().getTime() + this.timeZoneOffset;
                     if (check_start_date >= start_date_timestamp && check_start_date <= end_date_timestamp + 82800000){ // + 23hours
-                        userDataObject.spentTime(TimeUtil.fromTimeStamp(check_start_date, "MM")+TimeUtil.fromTimeStamp(check_start_date, "dd"), worklog.getTimeSpent(), project.getId(), issue.getId());
+                        userDataObject.spentTime(TimeUtil.fromTimeStamp(check_start_date, "yyyy")+TimeUtil.fromTimeStamp(check_start_date, "MM")+TimeUtil.fromTimeStamp(check_start_date, "dd"), worklog.getTimeSpent(), project.getId(), issue.getId());
                     }
                 }
             }

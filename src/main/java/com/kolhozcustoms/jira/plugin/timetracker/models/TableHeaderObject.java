@@ -31,14 +31,14 @@ public class TableHeaderObject{
             if (current_months != Integer.parseInt(TimeUtil.fromTimeStamp(day, "MM"))){ 
                 current_months = Integer.parseInt(TimeUtil.fromTimeStamp(day, "MM"));
                 //List<String> tmp = 
-                this.monthList.get(this.monthList.size()-1).set(2, String.valueOf(day_in_month)); //get last monyh from list and change day count in month
+                this.monthList.get(this.monthList.size()-1).set(2, String.valueOf(day_in_month)); //get last month from list and change day count in month
                 //tmp.set(2, String.valueOf(day_in_month));
                 //this.monthList.set(this.monthList.size()-1, tmp);
                 day_in_month = 0;
                 this.monthList.add(Arrays.asList(new String[] {TimeUtil.fromTimeStamp(day, "MM"), TimeUtil.fromTimeStamp(day, "MMMMM"), "0"}));
             }
             day_in_month++;
-            this.emptySpentList.put(TimeUtil.fromTimeStamp(day, "MM")+TimeUtil.fromTimeStamp(day, "dd"), 0L);
+            this.emptySpentList.put(TimeUtil.fromTimeStamp(day, "yyyy")+TimeUtil.fromTimeStamp(day, "MM")+TimeUtil.fromTimeStamp(day, "dd"), 0L);
         }
         this.monthList.get(this.monthList.size()-1).set(2, String.valueOf(day_in_month));
         //this.headerLevel1.addAll(Arrays.asList(Arrays.asList("0", i18n.getText("time-tracker-report.timetracker.table.name"),"1"), Arrays.asList("0", "Задачи","1"), Arrays.asList("0", "Затрачено времени","1")));
@@ -62,6 +62,8 @@ public class TableHeaderObject{
     }
 
     public Map<String, Long> getEmptySpentList(){
+        System.out.println(this.emptySpentList);
         return this.emptySpentList;
+
     }
 }
